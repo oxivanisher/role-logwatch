@@ -1,0 +1,84 @@
+---
+
+- name: install logwatch package
+  ansible.builtin.package:
+    name:
+      - logwatch
+      - libdate-manip-perl
+    state: present
+
+- name: remove daily cronjob
+  ansible.builtin.file:
+    path: /etc/cron.daily/00logwatch
+    state: absent
+
+- name: putting cronjob in place
+  ansible.builtin.template:
+    src: 00logwatch.jinja2
+    dest: /etc/cron.weekly/00logwatch
+    owner: root
+    group: root
+    mode: 0755
+
+- name: configure output
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Output'
+    line: 'Output = stdout'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure format
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Format'
+    line: 'Format = text'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure encoding
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Encode'
+    line: 'Encode = none'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure mailto
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^MailTo'
+    line: 'MailTo = {{ mail.admin_address }}'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure mailfrom
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^MailFrom'
+    line: 'MailFrom = Logwatch {{ ansible_hostname }}'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure range
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Range'
+    line: 'Range = between -7 days and -1 days'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure detail
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Detail'
+    line: 'Detail = Low'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure services
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^Service'
+    line: 'Service = All'
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: configure mailer
+  ansible.builtin.lineinfile:
+    dest: /usr/share/logwatch/default.conf/logwatch.conf
+    regexp: '^mailer'
+    line: 'mailer = "/usr/sbin/sendmail -t"'
+  ignore_errors: "{{ ansible_check_mode }}"
