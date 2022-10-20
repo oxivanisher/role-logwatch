@@ -1,6 +1,7 @@
 galaxy_info:
   role_name: logwatch
   author: Marc Urben
+  namespace: thunderbluff
   description: Configure logwatch
   company: Thunderbluff
 
