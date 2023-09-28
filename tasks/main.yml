@@ -17,7 +17,7 @@
     dest: /etc/cron.weekly/00logwatch
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Configure output
   ansible.builtin.lineinfile:
