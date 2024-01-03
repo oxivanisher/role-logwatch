@@ -1,2 +1,3 @@
 ---
 # defaults file for logwatch
+logwatch_report_address:
