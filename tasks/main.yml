@@ -44,7 +44,7 @@
   ansible.builtin.lineinfile:
     dest: /usr/share/logwatch/default.conf/logwatch.conf
     regexp: "^MailTo"
-    line: "MailTo = {{ mail.admin_address }}"
+    line: "MailTo = {{ logwatch_report_address }}"
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Configure mailfrom
