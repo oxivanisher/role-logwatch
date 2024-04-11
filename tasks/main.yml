@@ -5,11 +5,15 @@
       - logwatch
       - libdate-manip-perl
     state: present
+  become: true
+  become_user: root
 
 - name: Remove daily cronjob
   ansible.builtin.file:
     path: /etc/cron.daily/00logwatch
     state: absent
+  become: true
+  become_user: root
 
 - name: Putting cronjob in place
   ansible.builtin.template:
@@ -18,6 +22,8 @@
     owner: root
     group: root
     mode: "0755"
+  become: true
+  become_user: root
 
 - name: Configure output
   ansible.builtin.lineinfile:
@@ -25,6 +31,8 @@
     regexp: "^Output"
     line: "Output = stdout"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure format
   ansible.builtin.lineinfile:
@@ -32,6 +40,8 @@
     regexp: "^Format"
     line: "Format = text"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure encoding
   ansible.builtin.lineinfile:
@@ -39,6 +49,8 @@
     regexp: "^Encode"
     line: "Encode = none"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure mailto
   ansible.builtin.lineinfile:
@@ -46,6 +58,8 @@
     regexp: "^MailTo"
     line: "MailTo = {{ logwatch_report_address }}"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure mailfrom
   ansible.builtin.lineinfile:
@@ -53,6 +67,8 @@
     regexp: "^MailFrom"
     line: "MailFrom = Logwatch {{ ansible_hostname }}"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure range
   ansible.builtin.lineinfile:
@@ -60,6 +76,8 @@
     regexp: "^Range"
     line: "Range = between -7 days and -1 days"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure detail
   ansible.builtin.lineinfile:
@@ -67,6 +85,8 @@
     regexp: "^Detail"
     line: "Detail = Low"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure services
   ansible.builtin.lineinfile:
@@ -74,6 +94,8 @@
     regexp: "^Service"
     line: "Service = All"
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
 
 - name: Configure mailer
   ansible.builtin.lineinfile:
@@ -81,3 +103,5 @@
     regexp: "^mailer"
     line: 'mailer = "/usr/sbin/sendmail -t"'
   ignore_errors: "{{ ansible_check_mode }}"
+  become: true
+  become_user: root
