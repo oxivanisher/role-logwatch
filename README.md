@@ -1,5 +1,6 @@
 logwatch
 ========
+[![Ansible Lint](https://github.com/oxivanisher/role-logwatch/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/oxivanisher/role-logwatch/actions/workflows/ansible-lint.yml)
 
 Configures logwatch reports to be weekly and where to send them to.
 
